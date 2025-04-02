@@ -1,0 +1,121 @@
+import * as React from "react";
+import { CamelIntegrationKind, ConfigMapKind, PersistentVolumeClaimKind, SecretKind } from "../../types";
+import { Card, CardBody, CardTitle, TextContent, Text } from '@patternfly/react-core';
+import { K8sResourceCommon, ResourceLink } from "@openshift-console/dynamic-plugin-sdk";
+import Status from "@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status";
+import { configMapGVK, persistentVolumeClaimGVK, secretGVK } from "../../const";
+
+
+type CamelIntegrationVolumeVolumesProps = {
+    obj: CamelIntegrationKind;
+};
+
+const CamelIntegrationVolumes: React.FC<CamelIntegrationVolumeVolumesProps> = ({ obj: camelInt }) => {
+
+    // TODO understand what it is supposed to be checking
+
+    const [volumes, setVolumes] = React.useState(camelInt && camelInt.spec ? camelInt.spec.volumes : []);
+    const [volumeStatus, setVolumeStatus] = React.useState({});
+
+    React.useEffect(() => {
+        setVolumes(camelInt && camelInt.spec && camelInt.spec.volumes ? camelInt.spec.volumes : []);
+    }, [camelInt]);
+
+    React.useEffect(() => {
+        if (camelInt && camelInt.metadata) {
+            volumes.forEach(volume => {
+                const kind = volumeKind(volume);
+                switch (kind) {
+                    case 'ConfigMap':
+                        fetchConfigMap(camelInt.metadata.namespace, volume.name).then((configMap: ConfigMapKind) => {
+                            updateVolumeStatus(volume.name, configMap ? "Succeeded" : "Pending");
+                        });
+                        break;
+                    case 'Secret':
+                        fetchSecret(camelInt.metadata.namespace, volume.name).then((secret: SecretKind) => {
+                            updateVolumeStatus(volume.name, secret ? "Succeeded" : "Pending");
+                        });
+                        break;
+                    case 'PersistentVolumeClaim':
+                        fetchPvc(camelInt.metadata.namespace, volume.name).then((pvc: PersistentVolumeClaimKind) => {
+                            updateVolumeStatus(volume.name, pvc ? "Succeeded" : "Pending");
+                        });
+                        break;
+                    default:
+                        console.log('Unknown volume kind: ' + kind);
+                }
+            });
+        }
+    }, [volumes]);
+
+    const updateVolumeStatus = (name: string, status: string) => {
+        setVolumeStatus(prevStatus => ({
+            ...prevStatus,
+            [name]: status,
+        }));
+    }
+
+    React.useEffect(() => {
+        //just for refresh 
+    }, [volumeStatus]);
+
+
+    return (
+        <Card>
+            <CardTitle>Volumes</CardTitle>
+            <CardBody>
+                <List isPlain isBordered>
+                    {camelInt && camelInt.spec && camelInt.spec.volumes && camelInt.spec.volumes.map(volume => (
+                        <ListItem key={volume.name}>
+                            <ResourceLink
+                                key={volume.name}
+                                kind={volumeKind(volume)}
+                                name={volume.name}
+                                namespace={camelInt.metadata.namespace}
+                                linkTo={true} />
+                            <TextContent>
+                                <Text component="p">Kind: {volumeKind(volume)} </Text>
+                            </TextContent>
+                            <TextContent>
+                                {camelInt.spec.containers.filter((container) => container.volumeMounts.filter((volumeMount) => volumeMount.name === volume.name).length > 0).map((container) => (
+                                    <li key={container.name}>
+                                        <TextContent>
+                                            Container: {container.name}
+                                            {container.volumeMounts.filter((volumeMount) => volumeMount.name === volume.name).map((volumeMount) => (
+                                                <TextContent>
+                                                    Path: {volumeMount.mountPath}
+                                                </TextContent>
+                                            ))}
+                                        </TextContent>
+                                    </li>
+                                ))}
+                            </TextContent>
+                            <TextContent>
+                                Status:
+                                <Status
+                                    title={volumeStatus[volume.name] ? volumeStatus[volume.name] : "Pending"}
+                                    status={volumeStatus[volume.name] ? volumeStatus[volume.name] : "Pending"} />
+                            </TextContent>
+                        </ListItem>
+                    ))}
+                </List>
+            </CardBody>
+        </Card>
+    );
+};
+
+const volumeKind = (volume: K8sResourceCommon) => {
+    switch (volume.kind) {
+        case configMapGVK.kind:
+            return configMapGVK;
+        case secretGVK.kind:
+            return secretGVK
+        case persistentVolumeClaimGVK.kind:
+            return persistentVolumeClaimGVK;
+
+        default:
+            return 'Unknown';
+    }
+};
+
+export default CamelIntegrationVolumes;

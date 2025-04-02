@@ -38,67 +38,67 @@ const CamelIntegrationDetails: React.FC<CamelIntegrationDetailsProps> = ({ obj: 
     metricsEndpoint: '/observe/metrics',
   };
 
+  console.log(camelIntegrationDetails);
+
   return (
-    <Card>
-      <CardTitle>{t('Integration')}</CardTitle>
-      <CardBody>
-        <Card>
-          <CardTitle>{t('Details')}</CardTitle>
-          <CardBody>
-            <ResourceLink
-              groupVersionKind={camelIntegrationDetails.groupVersionKind}
-              name={camelIntegrationDetails.name}
-              namespace={camelIntegrationDetails.namespace}
-              linkTo={true}
-            />
-            <TextContent>
-              <strong>{t('Version')}: </strong>
-              {camelIntegrationDetails.version || (
-                <span className="text-muted">{t('No version')}</span>
-              )}
-            </TextContent>
-            <TextContent>
-              <strong>{t('Build Timestamp')}: </strong>
-              {camelIntegrationDetails.buildTimestamp || (
-                <span className="text-muted">{t('No build timestamp')}</span>
-              )}
-            </TextContent>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardTitle>{t('Endpoints')}</CardTitle>
-          <CardBody>
-            <TextContent>
-              <strong>{t('Health Endpoints')}: </strong>
-              {camelIntegrationDetails.healthEndpoints
-                ? camelIntegrationDetails.healthEndpoints.forEach((endpoint) => (
-                    <TextContent> {endpoint}</TextContent>
-                  ))
-                : '-'}
-            </TextContent>
-            <TextContent>
-              <strong>{t('Metrics Endpoint')}: </strong>
-              {camelIntegrationDetails.metricsEndpoint ? (
-                <TextContent> {camelIntegrationDetails.metricsEndpoint}</TextContent>
-              ) : (
-                '-'
-              )}
-            </TextContent>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardTitle>{t('Frameworks')}</CardTitle>
-          <CardBody>
-            <TextContent>
-              <strong>{t('Runtime')}: </strong> {camelIntegrationDetails.runtimeFramework}
-            </TextContent>
-            <TextContent>
-              <strong>{t('Runtime version')}: </strong> {camelIntegrationDetails.runtimeVersion}
-            </TextContent>
-          </CardBody>
-        </Card>
-      </CardBody>
-    </Card>
+    <div className="co-m-pane__body">
+      <h2>{t('Camel Integration Details')}</h2>
+      <Card>
+        <CardTitle>{t('Details')}</CardTitle>
+        <CardBody>
+          <ResourceLink
+            groupVersionKind={camelIntegrationDetails.groupVersionKind}
+            name={camelIntegrationDetails.name}
+            namespace={camelIntegrationDetails.namespace}
+            linkTo={true}
+          />
+          <TextContent>
+            <strong>{t('Version')}: </strong>
+            {camelIntegrationDetails.version || (
+              <span className="text-muted">{t('No version')}</span>
+            )}
+          </TextContent>
+          <TextContent>
+            <strong>{t('Build Timestamp')}: </strong>
+            {camelIntegrationDetails.buildTimestamp || (
+              <span className="text-muted">{t('No build timestamp')}</span>
+            )}
+          </TextContent>
+        </CardBody>
+      </Card>
+      <Card>
+        <CardTitle>{t('Endpoints')}</CardTitle>
+        <CardBody>
+          <TextContent>
+            <strong>{t('Health Endpoints')}: </strong>
+            {camelIntegrationDetails.healthEndpoints
+              ? camelIntegrationDetails.healthEndpoints.map((endpoint, i) => {
+                  return <TextContent key={i}> {endpoint}</TextContent>;
+                })
+              : '-'}
+          </TextContent>
+          <TextContent>
+            <strong>{t('Metrics Endpoint')}: </strong>
+            {camelIntegrationDetails.metricsEndpoint ? (
+              <TextContent> {camelIntegrationDetails.metricsEndpoint}</TextContent>
+            ) : (
+              '-'
+            )}
+          </TextContent>
+        </CardBody>
+      </Card>
+      <Card>
+        <CardTitle>{t('Frameworks')}</CardTitle>
+        <CardBody>
+          <TextContent>
+            <strong>{t('Runtime')}: </strong> {camelIntegrationDetails.runtimeFramework}
+          </TextContent>
+          <TextContent>
+            <strong>{t('Runtime version')}: </strong> {camelIntegrationDetails.runtimeVersion}
+          </TextContent>
+        </CardBody>
+      </Card>
+    </div>
   );
 };
 

@@ -1,11 +1,17 @@
 {
+  "Build Timestamp": "Build Timestamp",
   "C": "C",
   "Camel": "Camel",
   "Camel Details": "Camel Details",
+  "Camel Integration Details": "Camel Integration Details",
   "Created": "Created",
   "Details": "Details",
-  "Integration": "Integration",
+  "Endpoints": "Endpoints",
+  "Frameworks": "Frameworks",
+  "Health Endpoints": "Health Endpoints",
   "Kind": "Kind",
+  "Location:": "Location:",
+  "Metrics Endpoint": "Metrics Endpoint",
   "Name": "Name",
   "Namespace": "Namespace",
   "No build timestamp": "No build timestamp",
@@ -13,5 +19,13 @@
   "No namespace": "No namespace",
   "No resources found": "No resources found",
   "No version": "No version",
-  "Status": "Status"
+  "Pod port:": "Pod port:",
+  "Resources": "Resources",
+  "Runtime": "Runtime",
+  "Runtime version": "Runtime version",
+  "Service port:": "Service port:",
+  "Status": "Status",
+  "unknown host": "unknown host",
+  "Version": "Version",
+  "View Logs": "View Logs"
 }

@@ -30,5 +30,42 @@ export const cronJobGVK = {
   version: 'v1',
   kind: 'CronJob',
 };
+export const jobGVK = {
+  group: 'batch',
+  version: 'v1',
+  kind: 'Job',
+};
+
+export const podGVK = {
+  group: '',
+  version: 'v1',
+  kind: 'Pod',
+};
+export const serviceGVK = {
+  group: '',
+  version: 'v1',
+  kind: 'Service',
+};
+export const routeGVK = {
+  group: 'route.openshift.io',
+  version: 'v1',
+  kind: 'Route',
+};
+
+export const configMapGVK = {
+  group: '',
+  version: 'v1',
+  kind: 'ConfigMap',
+};
+export const secretGVK = {
+  group: '',
+  version: 'v1',
+  kind: 'Secret',
+};
+export const persistentVolumeClaimGVK = {
+  group: '',
+  version: 'v1',
+  kind: 'PersistentVolumeClaim',
+};
 
 export const ALL_NAMESPACES_KEY = '#ALL_NS#';
