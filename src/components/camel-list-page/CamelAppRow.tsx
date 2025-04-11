@@ -39,7 +39,7 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         <span className="co-resource-item co-resource-item--truncate">
           <span className="co-m-resource-icon co-m-resource-secret">C</span>
           <Link
-            to={`/camel/app/ns/${camelInt.metadata.namespace}/kind/${camelInt.kind}/name/${camelInt.metadata.name}`}
+            to={`/camel/app/ns/${camelInt.metadata.namespace}/name/${camelInt.metadata.name}`}
             className="co-resource-item__resource-name"
             title={camelInt.metadata.name}
             onClick={handleClick}

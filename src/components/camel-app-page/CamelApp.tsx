@@ -10,14 +10,12 @@ const CamelApp: React.FC = () => {
   const {
     ns: namespace,
     name,
-    kind,
   } = useParams<{
     ns?: string;
     name?: string;
-    kind?: string;
   }>();
 
-  const { CamelApp, isLoading, error } = useCamelApp(name, namespace, kind);
+  const { CamelApp, isLoading, error } = useCamelApp(name, namespace);
 
   const pages = useCamelAppTabs(CamelApp);
 
@@ -25,7 +23,7 @@ const CamelApp: React.FC = () => {
   if (isLoading) {
     return (
       <>
-        <CamelAppTitle name={name} namespace={namespace} />
+        <CamelAppTitle name={name} namespace={namespace} obj={CamelApp}/>
         <Spinner />
       </>
     );
@@ -39,7 +37,7 @@ const CamelApp: React.FC = () => {
   return (
     <>
       <NamespaceBar isDisabled />
-      <CamelAppTitle name={name} namespace={namespace} />
+      <CamelAppTitle name={name} namespace={namespace} obj={CamelApp} />
       <HorizontalNav pages={pages} />
     </>
   );

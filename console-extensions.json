@@ -3,7 +3,7 @@
     "type": "console.page/route",
     "properties": {
       "exact": false,
-      "path": "/camel/app/ns/:ns/kind/:kind/name/:name",
+      "path": "/camel/app/ns/:ns/name/:name",
       "component": { "$codeRef": "CamelApp" }
     }
   },
