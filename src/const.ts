@@ -15,6 +15,12 @@ export const METADATA_ANNOTATION_QUARKUS_BUILD_TIMESTAMP = 'app.quarkus.io/build
 export const METADATA_ANNOTATION_CAMEL_SPRINGBOOT_VERSION = 'camel/spring-boot-version';
 export const METADATA_ANNOTATION_CAMEL_CSB_VERSION = 'camel/camel-spring-boot-version';
 
+export const camelAppGVK = {
+  group: 'camel.apache.org',
+  version: 'v1alpha1',
+  kind: 'App',
+};
+
 export const deploymentGVK = {
   group: 'apps',
   version: 'v1',

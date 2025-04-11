@@ -26,7 +26,7 @@ const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
     {
       title: t('Kind'),
       id: 'kind',
-      sort: 'kind',
+      sort: 'metadata.ownerReferences[0].kind',
       transforms: [sortable],
     },
     ...(!namespace
@@ -42,19 +42,13 @@ const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
     {
       title: t('Status'),
       id: 'status',
-      sort: (data, direction) => data?.sort(sortResourceByStatus(direction)),
+      sort: 'satus.phase',
       transforms: [sortable],
     },
     {
       title: t('Camel'),
       id: 'camel',
-      sort: "metadata.annotations.['camel/camel-core-version']",
-      transforms: [sortable],
-    },
-    {
-      title: t('Created'),
-      id: 'created',
-      sort: 'metadata.creationTimestamp',
+      sort: "status.pods.runtime.vamelVersion",
       transforms: [sortable],
     },
   ];

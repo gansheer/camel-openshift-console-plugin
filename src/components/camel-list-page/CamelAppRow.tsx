@@ -5,14 +5,12 @@ import {
   ResourceLink,
   RowProps,
   TableData,
-  Timestamp,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Status from '@openshift-console/dynamic-plugin-sdk/lib/app/components/status/Status';
-import { CamelAppStatusTitle, CamelAppStatusValue } from './CamelAppStatus';
 
-const getKind = (obj) => obj.kind;
+const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
 
 const getCamelVersion = (obj: K8sResourceKind): string =>
@@ -54,8 +52,8 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         <span className="co-break-word co-line-clamp">
           <ResourceLink
             displayName={getKind(camelInt)}
-            groupVersionKind={getGroupVersionKindForResource(camelInt)}
-            name={camelInt.metadata.name}
+            groupVersionKind={getGroupVersionKindForResource(camelInt.metadata.ownerReferences[0])}
+            name={camelInt.metadata.ownerReferences[0].name}
             namespace={camelInt.metadata.namespace}
           />
         </span>
@@ -67,15 +65,11 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
       </TableData>
       <TableData id="status" activeColumnIDs={activeColumnIDs}>
         <Status
-          title={CamelAppStatusTitle(camelInt)}
-          status={CamelAppStatusValue(camelInt)}
+          status={camelInt.status.Phase}
         />
       </TableData>
       <TableData id="camel" activeColumnIDs={activeColumnIDs}>
         {camelVersion || <span className="text-muted">{t('No camel version')}</span>}
-      </TableData>
-      <TableData id="created" activeColumnIDs={activeColumnIDs}>
-        <Timestamp timestamp={camelInt.metadata.creationTimestamp} />
       </TableData>
     </>
   );
