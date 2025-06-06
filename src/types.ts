@@ -5,7 +5,15 @@ export type CamelAppKind = K8sResourceKind & {
   status: {
     pods: CamelAppStatusPod[];
     phase: string;
+    sliExchangeSuccessRate: CamelAppSli;
   };
+};
+
+export type CamelAppSli = {
+  samplingInterval: number
+  samplingIntervalTotal: number
+  status: string
+  successPercentage: string
 };
 
 export type CamelAppStatusPod = {

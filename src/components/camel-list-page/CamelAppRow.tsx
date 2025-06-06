@@ -1,10 +1,13 @@
 import * as React from 'react';
 import {
   getGroupVersionKindForResource,
+  GreenCheckCircleIcon,
   K8sResourceKind,
+  RedExclamationCircleIcon,
   ResourceLink,
   RowProps,
   TableData,
+  YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -15,6 +18,13 @@ import CamelImage from '@images/camel.svg';
 const getKind = (obj) => obj.metadata.ownerReferences[0].kind;
 const getNamespace = (obj) => obj.metadata?.namespace;
 const getRuntimeProvider = (obj) => obj.status.pods ? obj.status.pods[0].runtime.runtimeProvider : "";
+const getCamelHealth = (obj) => obj.status.sliExchangeSuccessRate ? obj.status.sliExchangeSuccessRate.status : "";
+/*const getCamelHealthStatusValue = (obj) => {
+  if (!obj.status.sliExchangeSuccessRate){
+    return "Unknown"
+  }
+  obj.status.sliExchangeSuccessRate ? obj.status.sliExchangeSuccessRate.status: ""
+};*/
 
 // Check for a modified mouse event. For example - Ctrl + Click
 const isModifiedEvent = (event: React.MouseEvent<HTMLElement>) => {
@@ -77,6 +87,12 @@ const CamelAppRow: React.FC<RowProps<K8sResourceKind>> = ({ obj: camelInt, activ
         {getCamelVersionAsString(camelInt, 'asc') || (
           <span className="text-muted">{t('No camel version')}</span>
         )}
+      </TableData>
+      <TableData id="health" activeColumnIDs={activeColumnIDs}>
+        
+        <GreenCheckCircleIcon title="Healthy" />&nbsp;&nbsp;{getCamelHealth(camelInt)}
+        <YellowExclamationTriangleIcon title="Warning"/>&nbsp;&nbsp;{getCamelHealth(camelInt)}
+        <RedExclamationCircleIcon title="Failed" />&nbsp;&nbsp;{getCamelHealth(camelInt)}
       </TableData>
     </>
   );

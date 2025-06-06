@@ -46,6 +46,12 @@ const useCamelAppColumns = (namespace): TableColumn<K8sResourceKind>[] => {
       sort: (data, direction) => data?.sort(sortResourceByCamelVersion(direction)),
       transforms: [sortable],
     },
+    {
+      title: t('Camel Health'),
+      id: 'health',
+      sort: 'status.sliExchangeSuccessRate.status',
+      transforms: [sortable],
+    },
   ];
 };
 
