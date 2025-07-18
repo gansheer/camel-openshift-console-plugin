@@ -10,7 +10,7 @@ The project is created using [openshift console plugin template](https://github.
 **Current version: 0.0.1**
 
 It requires:
-* OpenShift 4.18
+* OpenShift 4.19
 * [Camel Dashboard Operator](https://github.com/squakez/camel-dashboard-operator)
 
 
