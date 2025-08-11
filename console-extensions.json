@@ -27,11 +27,6 @@
   },
   {
     "type": "console.page/route",
-    "flags": {
-      "required": [
-        "CAMEL_APP_FLAG"
-      ]
-    },
     "properties": {
       "exact": true,
       "path": [
@@ -61,11 +56,6 @@
   },
   {
     "type": "console.navigation/href",
-    "flags": {
-      "required": [
-        "CAMEL_APP_FLAG"
-      ]
-    },
     "properties": {
       "id": "camel",
       "name": "%plugin__camel-openshift-console-plugin~Camel%",
